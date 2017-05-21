@@ -1,0 +1,24 @@
+
+.table-header {
+   font-family: Helvetica, arial, sans-serif;
+  width: 980px;
+  color: #333;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+td {
+  padding: 30px;
+  border: 1px solid gray; 
+}
+
+.last {
+  text-align: left;
+}
+
+.style-container {
+  width:350px;
+  height:30px;
+}

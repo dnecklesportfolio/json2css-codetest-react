@@ -5,7 +5,7 @@
   "repository": "git@github.com:andela-jwarugu/react-startpack.git",
   "author": "andela-jwarugu <joy.warugu@andela.com>",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server -o"
   },
   "license": "MIT",
   "devDependencies": {
@@ -17,8 +17,11 @@
     "webpack": "^1.14.0"
   },
   "dependencies": {
+    "css-loader": "^0.28.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-motion": "^0.5.0",
+    "style-loader": "^0.17.0",
     "webpack-dev-server": "^1.16.2"
   }
 }
