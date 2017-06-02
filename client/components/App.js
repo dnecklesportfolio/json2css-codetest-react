@@ -5,24 +5,23 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      numberOfUsers: 7 ,
-       numberOfRows: 7 
+       numberOfRows: 7,
+       arrRows:['1','2','3','4','5','6','7'] 
     }
     this.handleClick  =  this.handleClick.bind(this)
-    this.renderRow    =  this.renderRow.bind(this)
+     this.renderRow  =  this.renderRow.bind(this)
   }
 
   handleClick () {
     console.log("test"+this.state.numberOfRows)
     this.setState({numberOfRows: this.state.numberOfRows+1})
   }
+ renderRow(index,item){
+ 
+              return <Row key={index} list={item}/>
+        
 
-  renderRow () {
-    for (let i=0; i<this.state.numberOfRows; i++) {
-      return <Row number={i}/>
-    }
-  }
-
+ }
   render() {
     return (
       <div>
@@ -36,7 +35,11 @@ export default class App extends React.Component {
               <td>Enter your JSON style here: {this.state.numberOfRows} </td>
               <td>Here is what that would look like:</td>
             </tr>
-            {this.renderRow() }
+            {this.state.arrRows.map( function(item, index){
+
+              return <Row key={index} list={item}/>
+              
+            })}
 
             <tr>
               <td colSpan={2} className="last"> <button onClick={this.handleClick}>Add Row</button> </td>
