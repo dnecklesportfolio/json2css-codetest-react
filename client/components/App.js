@@ -4,46 +4,115 @@ import Row from "./Row";
 export default class App extends React.Component {
   constructor() {
     super();
+
     this.state = {
-       numberOfRows: 7,
-       arrRows:['1','2','3','4','5','6','7'] 
-    }
-    this.handleClick  =  this.handleClick.bind(this)
-     this.renderRow  =  this.renderRow.bind(this)
+      username: "",
+      commandArr: [""],
+      sessionArr: [
+        {
+          username: "dwayne",
+          commandArr: [
+            '{"backgroundColor":"yellow"}',
+            '{"backgroundColor":"red"}',
+            '{"backgroundColor":"pink"}'
+          ]
+        },
+        {
+          username: "marcus",
+          commandArr: [
+            '{"backgroundColor":"red"}',
+            '{"backgroundColor":"black"}',
+            '{"backgroundColor":"green"}'
+          ]
+        }
+      ]
+    };
+
+    this.addNewRow = this.addNewRow.bind(this);
+    this.handleNameInputChange = this.handleNameInputChange.bind(this);
+    this.generateID = this.generateID.bind(this);
+    this.saveUserSession = this.saveUserSession.bind(this);
+    this.loadUserSession = this.loadUserSession.bind(this);
   }
 
-  handleClick () {
-    console.log("test"+this.state.numberOfRows)
-    this.setState({numberOfRows: this.state.numberOfRows+1})
+  addNewRow() {
+    //var nextArr = this.state.arrRows.concat['8']
+    var nextArr = [...this.state.commandArr, ""];
+    this.setState({
+      username: "",
+      commandArr: nextArr
+    });
   }
- renderRow(index,item){
- 
-              return <Row key={index} list={item}/>
-        
 
- }
+  handleNameInputChange(evt) {
+    this.setState({
+      username: evt.target.value
+    });
+  }
+  generateID() {
+    return Math.floor(Math.random() * 1000000);
+  }
+
+  saveUserSession(event) {
+    event.preventDefault();
+    const nextArr = [...this.state.commandArr, ""];
+
+    this.setState({
+      username: event.target.value,
+      commandArr: nextArr
+    });
+  }
+
+  loadUserSession(event) {
+    event.preventDefault();
+    const target = this.state.username;
+
+    const sessionToLoad = this.state.sessionArr.find(function(session) {
+      return session.username === target;
+    });
+
+    this.setState(
+      {
+        username: target,
+        commandArr: sessionToLoad.commandArr
+      }
+    );
+  }
   render() {
     return (
       <div>
         <table className="table-header">
           <tbody>
             <tr>
-              <td colSpan={2}>Name: <input type="text"/> <button>Load</button>
-              <button>Save</button></td>
+              <td colSpan={2}>
+                Name:
+                <form>
+                  <input
+                    value={this.state.username}
+                    onChange={this.handleNameInputChange}
+                    type="text"
+                  />
+
+                  <button onClick={this.loadUserSession}>Load</button>
+                  <button onClick={this.saveUserSession}>Save</button>
+                </form>
+              </td>
             </tr>
             <tr>
-              <td>Enter your JSON style here: {this.state.numberOfRows} </td>
+              <td>Enter your JSON style here: </td>
               <td>Here is what that would look like:</td>
             </tr>
-            {this.state.arrRows.map( function(item, index){
-
-              return <Row key={index} list={item}/>
-              
+            {this.state.commandArr.map((value, index) => {
+              return (
+                <Row key={this.generateID()} style={value} index={index} />
+              );
             })}
 
             <tr>
-              <td colSpan={2} className="last"> <button onClick={this.handleClick}>Add Row</button> </td>
-              
+              <td colSpan={2} className="last">
+                <button onClick={this.addNewRow}>Add Row</button>
+              </td>
+
             </tr>
           </tbody>
         </table>

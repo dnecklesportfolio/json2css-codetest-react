@@ -2,42 +2,44 @@ import React, { Component } from "react";
 export default class Row extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
-    this.handleChange = this.handleChange.bind(this);
-    this.applyStyle = this.applyStyle.bind(this);
-  }
+    this.state = { value: "",
+    styleObj:{} }
 
-  applyStyle(element, style) {
-    console.log("test", element, style);
-    Object.keys(style).forEach(function(key) {
-      element.style[key] = style[key];
-      console.log("test", element.style[key]);
-    });
+    this.handleChange = this.handleChange.bind(this);
+   
   }
+componentDidMount() {
+this.state = { value: this.props.style ? this.handleChange() :"" ,
+    styleObj:{} };
+}
+
   /* {"backgroundColor":"yellow"}*/
   handleChange(event) {
+     
     this.setState(
       {
-        value: event.target.value
+        value: event ? event.target.value : this.props.style 
       },
       () => {
+       //callback function needed here when state is set
         const myObject = JSON.parse(this.state.value);
-        this.applyStyle(document.getElementById("target"), myObject);
+        this.setState({styleObj: myObject});
       }
     );
   }
+
 
   render() {
     return (
       <tr>
         <td>
           <input
-            type="text"
+            type="textfield"
             value={this.state.value}
             onChange={this.handleChange}
           />
         </td>
-        <td id="target">{this.state.value} This is row {this.props.list} </td>
+        <td style={this.state.styleObj}>{this.state.value} This is row #{this.props.index} </td>
 
       </tr>
     );
